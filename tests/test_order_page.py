@@ -2,9 +2,6 @@ from pages.order_page import OrderPageScooter
 from pages.main_page import MainPageScooter
 from data import DataSet
 
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.support.wait import WebDriverWait
-
 import urls
 import pytest
 import allure
@@ -48,8 +45,8 @@ class TestRedirects:
         order_page.close_cookie_banner()
         order_page.click_yandex_logo()
         order_page.switch_to_new_window()
+        order_page.wait_url_contains("dzen.ru")
 
-        WebDriverWait(driver, 10).until(EC.url_contains("dzen.ru"))
         assert "dzen.ru" in driver.current_url
 
     @allure.title('Проверка редиректа на главную при нажатии на "Самокат" в шапке')
@@ -60,4 +57,4 @@ class TestRedirects:
         order_page.close_cookie_banner()
         order_page.click_scooter_logo()
 
-        assert WebDriverWait(driver, 5).until(EC.url_to_be(urls.MAIN_PAGE_URL))
+        assert order_page.wait_url_to_be(urls.MAIN_PAGE_URL)

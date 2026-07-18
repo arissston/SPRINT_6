@@ -76,3 +76,11 @@ class BasePage:
         WebDriverWait(self.driver, self.TIMEOUT).until(
             EC.number_of_windows_to_be(2))
         self.driver.switch_to.window(self.driver.window_handles[-1])
+
+    @allure.step('Ждём, пока URL станет "{url}"')
+    def wait_url_to_be(self, url):
+        return WebDriverWait(self.driver, self.TIMEOUT).until(EC.url_to_be(url))
+
+    @allure.step('Ждём, пока URL будет содержать "{text}"')
+    def wait_url_contains(self, text):
+        return WebDriverWait(self.driver, self.TIMEOUT).until(EC.url_contains(text))
