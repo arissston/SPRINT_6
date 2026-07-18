@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
 
-import urls
+import allure
 
 
 class MainPageScooter(BasePage):
@@ -35,23 +35,27 @@ class MainPageScooter(BasePage):
         return (By.ID, MainPageScooter.FAQ_ANSWER.format(index))
 
     # Прописываем методы, чтобы к ним обращаться из теста, и не светить там локаторы:
-    def load_main_page(self):
-        self.driver.get(urls.MAIN_PAGE_URL)
 
+    @allure.step('Кликаем на кнопку "Заказать" в шапке')
     def order_button_top_click(self):
         self.click(self.ORDER_BUTTON_TOP)
 
+    @allure.step('Кликаем на кнопку "Заказать" в нижней части страницы')
     def order_button_bottom_click(self):
         self.click(self.ORDER_BUTTON_BOTTOM)
 
+    @allure.step('Скроллим до кнопки "Заказать" в нижней части страницы')
     def scroll_to_order_button_bottom(self):
         self.scroll(self.ORDER_BUTTON_BOTTOM)
 
+    @allure.step('Скроллим до вопроса')
     def scroll_to_FAQ_question(self, index):
         self.scroll(self.faq_question(index))
 
+    @allure.step('Кликаем на вопроc')
     def click_faq_question(self, index):
         self.click(self.faq_question(index))
 
+    @allure.step('Получаем текст ответа на вопрос')
     def get_FAQ_answer_text(self, index):
         return self.get_text(self.faq_answer(index))

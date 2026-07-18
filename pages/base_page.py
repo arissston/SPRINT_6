@@ -2,6 +2,9 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
 
+import urls
+import allure
+
 
 class BasePage:
 
@@ -16,6 +19,18 @@ class BasePage:
 
     def __init__(self, driver):
         self.driver = driver
+
+    @allure.step('Открываем страницу {url}')
+    def open_page(self, url):
+        self.driver.get(url)
+
+    @allure.step('Открываем главную страницу')
+    def load_main_page(self):
+        self.open_page(urls.MAIN_PAGE_URL)
+
+    @allure.step('Открываем страницу заказа')
+    def load_order_page(self):
+        self.open_page(urls.ORDER_PAGE_URL)
 
     def click(self, locator):
         element = WebDriverWait(self.driver, self.TIMEOUT).until(
@@ -44,15 +59,19 @@ class BasePage:
         self.driver.execute_script("arguments[0].scrollIntoView();", element)
         return element
 
+    @allure.step('Закрываем куки баннер')
     def close_cookie_banner(self):
         self.click(self.COOKIE_CONFIRM_BUTTON)
 
+    @allure.step('КЛикаем на слово "Самокат" в шапке')
     def click_scooter_logo(self):
         self.click(self.SCOOTER_LOGO)
 
+    @allure.step('Кликаем на лого Яндекса в шапке')
     def click_yandex_logo(self):
         self.click(self.YANDEX_LOGO)
 
+    @allure.step('Переключаемся на открывшееся окно')
     def switch_to_new_window(self):
         WebDriverWait(self.driver, self.TIMEOUT).until(
             EC.number_of_windows_to_be(2))

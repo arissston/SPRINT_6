@@ -2,7 +2,7 @@ from selenium.webdriver.common.by import By
 from pages.base_page import BasePage
 from selenium.webdriver.common.keys import Keys
 
-import urls
+import allure
 
 
 class OrderPageScooter(BasePage):
@@ -66,12 +66,11 @@ class OrderPageScooter(BasePage):
     # Пиши-сокращай для тестов :) Хи хи.
     # Прописываем методы, чтобы к ним обращаться из теста, и не светить там локаторы:
 
-    def load_order_page(self):
-        self.driver.get(urls.ORDER_PAGE_URL)
-
+    @allure.step('Выбираем цвет {color}')
     def choose_color(self, color):
         self.click(self.COLOR_CHECKBOXES[color])
 
+    @allure.step('Заполняем персональные данные: {name}, {surname}, {address}, {metro}, {phone}')
     def fill_personal_data(self, name, surname, address, metro, phone):
         self.fill(self.NAME_INPUT, name)
         self.fill(self.SURNAME_INPUT, surname)
@@ -80,6 +79,7 @@ class OrderPageScooter(BasePage):
         self.click(self.metro_option(metro))
         self.fill(self.PHONE_INPUT, phone)
 
+    @allure.step('Заполняем данные аренды: {date}, {period}, {color}, {comment}')
     def fill_order_data(self, date, period, color, comment):
         self.fill(self.DATE_INPUT, date)
         self.wait_visibility(self.DATE_INPUT).send_keys(Keys.ESCAPE)
@@ -88,14 +88,18 @@ class OrderPageScooter(BasePage):
         self.choose_color(color)
         self.fill(self.COMMENT_INPUT, comment)
 
+    @allure.step('Кликаем на кнопку "Далее" под формой заказа')
     def click_next_button(self):
         self.click(self.NEXT_BUTTON)
 
+    @allure.step('Кликаем на кнопку "Заказать" под формой заказа')
     def click_order_button(self):
         self.click(self.ORDER_BUTTON)
 
+    @allure.step('Кликаем на кнопку "Да" в модальном окне подтверждения заказа')
     def confirm_order(self):
         self.click(self.CONFIRM_YES_BUTTON)
 
+    @allure.step('Получаем текст заголовка модального окна успешного заказа')
     def get_success_modal_header_text(self):
         return self.get_text(self.SUCCESS_MODAL_HEADER)

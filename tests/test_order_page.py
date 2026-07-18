@@ -7,14 +7,16 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 import urls
 import pytest
+import allure
 
 
 class TestPositiveScenario:
 
-    @pytest.mark.parametrize('entry_point, user_data', [
-        ('top', DataSet.ORDER_DATA_SET_1),
-        ('bottom', DataSet.ORDER_DATA_SET_2)])
-    def test_order_success_2_buttons(self, driver, entry_point, user_data):
+    @allure.title('Проверка позитивного сценария заказа, точка входа: {entry_name}')
+    @pytest.mark.parametrize('entry_point, entry_name, user_data', [
+        ('top', 'кнопка «Заказать» в шапке', DataSet.ORDER_DATA_SET_1),
+        ('bottom', 'кнопка «Заказать» в нижней части страницы', DataSet.ORDER_DATA_SET_2)])
+    def test_order_success_2_buttons(self, driver, entry_point, entry_name, user_data):
         main_page = MainPageScooter(driver)
         order_page = OrderPageScooter(driver)
 
@@ -38,6 +40,7 @@ class TestPositiveScenario:
 
 class TestRedirects:
 
+    @allure.title('Проверка редиректа на Дзен при нажатии на Яндекс Лого в шапке')
     def test_yandex_logo_redirects_to_dzen(self, driver):
         order_page = OrderPageScooter(driver)
 
@@ -49,6 +52,7 @@ class TestRedirects:
         WebDriverWait(driver, 10).until(EC.url_contains("dzen.ru"))
         assert "dzen.ru" in driver.current_url
 
+    @allure.title('Проверка редиректа на главную при нажатии на "Самокат" в шапке')
     def test_click_scooter_redirects_to_main(self, driver):
         order_page = OrderPageScooter(driver)
 
