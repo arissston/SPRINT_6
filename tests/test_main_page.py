@@ -7,6 +7,8 @@ import allure
 
 class TestFAQ:
 
+    # для ревьюера: question используется в тайтле для репорта.
+    # Так как репорты могут читать люди без технических навыков. *ВОТ ЗДЕСЬ:
     @allure.title('Проверка соответствия ответа на вопрос: "{faq_item[question]}" - ожидаемому ответу')
     @pytest.mark.parametrize("index, faq_item", FAQSet.FAQ_DATA_SET.items())
     def test_FAQ_correct_answers(self, driver, index, faq_item):

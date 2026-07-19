@@ -45,9 +45,8 @@ class TestRedirects:
         order_page.close_cookie_banner()
         order_page.click_yandex_logo()
         order_page.switch_to_new_window()
-        order_page.wait_url_contains("dzen.ru")
 
-        assert "dzen.ru" in driver.current_url
+        assert order_page.wait_url_contains("dzen.ru")
 
     @allure.title('Проверка редиректа на главную при нажатии на "Самокат" в шапке')
     def test_click_scooter_redirects_to_main(self, driver):

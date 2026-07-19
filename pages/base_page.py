@@ -32,27 +32,32 @@ class BasePage:
     def load_order_page(self):
         self.open_page(urls.ORDER_PAGE_URL)
 
+    @allure.step('Кликаем на элемент по локатору: "{locator}"')
     def click(self, locator):
         element = WebDriverWait(self.driver, self.TIMEOUT).until(
             EC.element_to_be_clickable(locator))
         element.click()
 
+    @allure.step('Заполняем поле элемента по локатору: "{locator}" текстом "{text}"')
     def fill(self, locator, text):
         element = WebDriverWait(self.driver, self.TIMEOUT).until(
             EC.visibility_of_element_located(locator))
         element.clear()
         element.send_keys(text)
 
+    @allure.step('Получаем текст элемента по локатору: "{locator}"')
     def get_text(self, locator):
         element = WebDriverWait(self.driver, self.TIMEOUT).until(
             EC.visibility_of_element_located(locator))
         return element.text
 
+    @allure.step('Ждём видимость элемента по локатору: "{locator}"')
     def wait_visibility(self, locator):
         element = WebDriverWait(self.driver, self.TIMEOUT).until(
             EC.visibility_of_element_located(locator))
         return element
 
+    @allure.step('Скроллим до элемента по локатору: "{locator}"')
     def scroll(self, locator):
         element = WebDriverWait(self.driver, self.TIMEOUT).until(
             EC.presence_of_element_located(locator))
